@@ -9,7 +9,7 @@ body { font-family: 'Pretendard', sans-serif; background-color: #ffffff; color: 
 /* 항로 드로잉 */
 .path-line { stroke-dasharray: 1000; stroke-dashoffset: 1000; transition: stroke-dashoffset 3s ease-in-out; }
 .reveal.active .path-line { stroke-dashoffset: 0; }
-
+.bg-gray-100{box-shadow:rgb(50 50 93 / 6%) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;} 
 /* 스킬바 애니메이션 */
 .skill-progress { width: 0; transition: width 1.5s cubic-bezier(0.65, 0, 0.35, 1); }
 .reveal.active .skill-progress { width: var(--target); }
