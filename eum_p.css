@@ -95,3 +95,30 @@ body { font-family: 'Pretendard', sans-serif; background-color: #ffffff; color: 
     50% { opacity: 0.5; }
     100% { opacity: 0; transform: translateY(5px) rotate(45deg); }
 }
+
+/* 1. 타이틀 글자 잘림 방지 (여백 및 가독성) */
+.text-gradient-animate {
+    display: inline-block;
+    padding-right: 0.15em; /* 글자가 잘리지 않도록 오른쪽 여백 확보 */
+    line-height: 1.2;      /* 줄 간격 확보 */
+    vertical-align: middle;
+}
+
+/* 2. 탑승하기 버튼 아이콘 겹침 방지 */
+a[href="#work"] {
+    display: inline-flex !important; /* 텍스트와 아이콘을 한 줄로 정렬 */
+    align-items: center;
+    justify-content: center;
+    gap: 12px;                      /* 아이콘과 글자 사이 간격 강제 부여 */
+}
+
+/* 3. 비행기 아이콘 애니메이션 보정 */
+.airplane-icon {
+    flex-shrink: 0;                /* 아이콘이 찌그러지지 않게 방지 */
+}
+
+/* 4. 스크롤 힌트 겹침 방지 */
+#scroll-hint {
+    z-index: 5;                    /* 다른 요소 뒤로 숨지 않게 설정 */
+    pointer-events: none;          /* 클릭 방해 금지 */
+}
