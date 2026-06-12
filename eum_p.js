@@ -1,18 +1,22 @@
-
-    // 상태 관리 변수
-    let editId = null; 
+    // 1. 초기 설정 및 데이터 로드
+    let editId = null;
     let projects = JSON.parse(localStorage.getItem('flights_v3')) || [
         {
             id: 1, title: "UIUX 사이트 리뉴얼(필프레임)", category: "UIUX,상세페이지 디자인",
             image: "images/feelframe_logo.jpg",
             result: "매출률 증가",
-            content: `...` // 기존 내용 유지
+            content: `<h1 class="text-5xl font-black italic">Feel Frame Case Study</h1><p class="mt-8 text-xl text-gray-500">동선 최적화를 통한 전환율 개선 사례입니다.</p>`
         }
     ];
 
-    // 렌더링 함수 (기존과 동일)
+    // 2. 새로고침 시 최상단 이동 로직
+    window.onbeforeunload = function() { window.scrollTo(0, 0); };
+    if (history.scrollRestoration) { history.scrollRestoration = 'manual'; }
+
+    // 3. 포트폴리오 렌더링 함수
     function renderWork(filter = 'all') {
         const grid = document.getElementById('portfolio-grid');
+        if(!grid) return;
         grid.innerHTML = '';
         const filtered = filter === 'all' ? projects : projects.filter(p => p.category.includes(filter));
 
@@ -43,140 +47,38 @@
         setTimeout(reveal, 100);
     }
 
-    // 모달 관리 (스크롤 방지 로직 보강)
-    function openCareer() { 
-        document.getElementById('careerModal').style.display = "block"; 
-        document.body.style.overflow = "hidden"; 
-    }
-    
-    function openAdmin() { 
-        document.getElementById('adminModal').style.display = "block"; 
-        document.body.style.overflow = "hidden"; // 배경 스크롤 방지 추가
+    // 4. 모달 관리 및 뒤로가기 기능 (History API 사용)
+    function openModal(id) {
+        document.getElementById(id).style.display = "block";
+        document.body.style.overflow = "hidden";
+        // 브라우저 히스토리에 가짜 상태 추가 (뒤로가기 시 모달만 닫히게 함)
+        history.pushState({ modal: id }, '');
     }
 
+    function closeModal(id) {
+        document.getElementById(id).style.display = "none";
+        document.body.style.overflow = "auto";
+        // 뒤로가기로 닫힌 게 아닐 경우 히스토리 정리
+        if (history.state && history.state.modal === id) {
+            history.back();
+        }
+    }
+
+    // 브라우저 뒤로가기 버튼 감지
+    window.onpopstate = function(event) {
+        document.querySelectorAll('.modal').forEach(m => m.style.display = "none");
+        document.body.style.overflow = "auto";
+    };
+
+    function openCareer() { openModal('careerModal'); }
+    function openAdmin() { openModal('adminModal'); }
     function openCaseStudy(id) {
         const p = projects.find(p => p.id === id);
         document.getElementById('modal-body').innerHTML = p.content;
-        document.getElementById('caseStudyModal').style.display = "block";
-        document.body.style.overflow = "hidden";
+        openModal('caseStudyModal');
     }
 
-    function closeModal(id) { 
-        document.getElementById(id).style.display = "none"; 
-        document.body.style.overflow = "auto"; // 스크롤 복구
-        if(id === 'adminModal') cancelEdit(); // 어드민 닫을 때 폼 초기화
-    }
-
-    // 어드민: 수정 모드 시작
-    function startEdit(id) {
-        const p = projects.find(proj => proj.id === id);
-        if (!p) return;
-
-        editId = id;
-        document.getElementById('p-title').value = p.title;
-        document.getElementById('p-category').value = p.category;
-        document.getElementById('p-image').value = p.image;
-        document.getElementById('p-result').value = p.result || "";
-        document.getElementById('p-content').value = p.content;
-
-        // UI 변경
-        document.getElementById('submit-btn').innerText = "Update Project";
-        document.getElementById('submit-btn').classList.replace('bg-blue-600', 'bg-black');
-        document.getElementById('form-mode').innerText = "MODE: EDIT PROJECT";
-        document.getElementById('cancel-edit-btn').classList.remove('hidden');
-        
-        // 입력창으로 스크롤 이동
-        document.getElementById('adminModal').scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // 어드민: 수정 취소 (초기화)
-    function cancelEdit() {
-        editId = null;
-        document.getElementById('p-title').value = "";
-        document.getElementById('p-image').value = "";
-        document.getElementById('p-result').value = "";
-        document.getElementById('p-content').value = "";
-        document.getElementById('submit-btn').innerText = "Add Project";
-        document.getElementById('submit-btn').classList.replace('bg-black', 'bg-blue-600');
-        document.getElementById('form-mode').innerText = "MODE: NEW PROJECT";
-        document.getElementById('cancel-edit-btn').classList.add('hidden');
-    }
-
-    // 어드민: 저장 (추가 및 수정 통합)
-    function saveProject() {
-        const title = document.getElementById('p-title').value;
-        if(!title) return alert("제목을 입력하세요");
-
-        const projectData = {
-            id: editId ? editId : Date.now(),
-            title: title,
-            category: document.getElementById('p-category').value,
-            image: document.getElementById('p-image').value,
-            result: document.getElementById('p-result').value || "In Progress",
-            content: document.getElementById('p-content').value
-        };
-
-        if (editId) {
-            // 수정
-            const index = projects.findIndex(p => p.id === editId);
-            projects[index] = projectData;
-            alert("수정되었습니다.");
-        } else {
-            // 추가
-            projects.push(projectData);
-            alert("추가되었습니다.");
-        }
-
-        localStorage.setItem('flights_v3', JSON.stringify(projects));
-        cancelEdit();
-        renderWork();
-        updateAdminList();
-    }
-
-    function deleteProject(id) {
-        if(confirm("정말 삭제하시겠습니까?")) {
-            projects = projects.filter(p => p.id !== id);
-            localStorage.setItem('flights_v3', JSON.stringify(projects));
-            renderWork(); 
-            updateAdminList();
-        }
-    }
-
-    function updateAdminList() {
-        const list = document.getElementById('admin-list');
-        list.innerHTML = projects.map(p => `
-            <div class="flex justify-between items-center p-4 bg-white rounded-xl mb-2 text-sm font-bold shadow-sm border border-gray-100">
-                <span class="truncate mr-4">${p.title}</span>
-                <div class="flex gap-3 shrink-0">
-                    <button onclick="startEdit(${p.id})" class="text-blue-600 hover:underline">EDIT</button>
-                    <button onclick="deleteProject(${p.id})" class="text-red-500 hover:underline">DEL</button>
-                </div>
-            </div>
-        `).join('');
-    }
-
-    function checkAdmin() {
-        if(document.getElementById('adminPass').value === '076710') {
-            document.getElementById('admin-auth').classList.add('hidden');
-            document.getElementById('admin-form').classList.remove('hidden');
-            updateAdminList();
-        } else {
-            alert("비밀번호가 틀렸습니다.");
-        }
-    }
-
-    // 필터링 버튼 액티브 상태 개선
-    function filterWork(cat) {
-        document.querySelectorAll('.filter-btn').forEach(b => {
-            b.classList.remove('bg-black', 'text-white', 'shadow-sm');
-            b.classList.add('text-gray-500');
-        });
-        event.target.classList.add('bg-black', 'text-white', 'shadow-sm');
-        event.target.classList.remove('text-gray-500');
-        renderWork(cat);
-    }
-
-    // 스크롤 및 초기화 이벤트
+    // 5. 스크롤 애니메이션 및 UI 보정
     function reveal() {
         const reveals = document.querySelectorAll('.reveal');
         reveals.forEach(el => {
@@ -186,23 +88,124 @@
         });
     }
 
-    window.onload = () => { renderWork(); reveal(); };
-    window.addEventListener('scroll', () => {
-    const scrollHint = document.getElementById('scroll-hint');
-    const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-    
-    // 1. 스크롤 진행도 계산 (기존 코드)
-    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-    const scrolled = (winScroll / height) * 100;
-    document.getElementById("scroll-progress-bar").style.width = scrolled + "%";
-
-    // 2. 스크롤 시 화살표 숨기기 (새로 추가)
-    if (winScroll > 100) {
-        scrollHint.style.opacity = "0";
-        scrollHint.style.pointerEvents = "none";
-    } else {
-        scrollHint.style.opacity = "0.6";
+    // 6. 어드민 관련 함수들
+    function checkAdmin() {
+        if(document.getElementById('adminPass').value === '076710') {
+            document.getElementById('admin-auth').classList.add('hidden');
+            document.getElementById('admin-form').classList.remove('hidden');
+            updateAdminList();
+        } else { alert("비밀번호가 틀렸습니다."); }
     }
 
-    reveal(); 
-});
+    function startEdit(id) {
+        const p = projects.find(proj => proj.id === id);
+        if (!p) return;
+        editId = id;
+        document.getElementById('p-title').value = p.title;
+        document.getElementById('p-category').value = p.category;
+        document.getElementById('p-image').value = p.image;
+        document.getElementById('p-content').value = p.content;
+        document.getElementById('submit-btn').innerText = "Update Project";
+        document.getElementById('form-mode').innerText = "MODE: EDIT PROJECT";
+        document.getElementById('cancel-edit-btn').classList.remove('hidden');
+        document.getElementById('adminModal').scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function cancelEdit() {
+        editId = null;
+        document.getElementById('p-title').value = "";
+        document.getElementById('p-image').value = "";
+        document.getElementById('p-content').value = "";
+        document.getElementById('submit-btn').innerText = "Add Project";
+        document.getElementById('form-mode').innerText = "MODE: NEW PROJECT";
+        document.getElementById('cancel-edit-btn').classList.add('hidden');
+    }
+
+    function saveProject() {
+        const title = document.getElementById('p-title').value;
+        if(!title) return alert("제목을 입력하세요");
+        const data = {
+            id: editId || Date.now(),
+            title: title,
+            category: document.getElementById('p-category').value,
+            image: document.getElementById('p-image').value,
+            result: "Impact Result",
+            content: document.getElementById('p-content').value
+        };
+        if(editId) {
+            const idx = projects.findIndex(p => p.id === editId);
+            projects[idx] = data;
+        } else { projects.push(data); }
+        localStorage.setItem('flights_v3', JSON.stringify(projects));
+        cancelEdit(); renderWork(); updateAdminList();
+        alert("저장되었습니다.");
+    }
+
+    function deleteProject(id) {
+        if(confirm("삭제하시겠습니까?")) {
+            projects = projects.filter(p => p.id !== id);
+            localStorage.setItem('flights_v3', JSON.stringify(projects));
+            renderWork(); updateAdminList();
+        }
+    }
+
+    function updateAdminList() {
+        const list = document.getElementById('admin-list');
+        list.innerHTML = projects.map(p => `
+            <div class="flex justify-between items-center p-4 bg-white rounded-xl mb-2 text-sm font-bold shadow-sm border border-gray-100">
+                <span class="truncate mr-4">${p.title}</span>
+                <div class="flex gap-3 shrink-0">
+                    <button onclick="startEdit(${p.id})" class="text-blue-600">EDIT</button>
+                    <button onclick="deleteProject(${p.id})" class="text-red-500">DEL</button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function filterWork(cat) {
+        document.querySelectorAll('.filter-btn').forEach(b => {
+            b.className = "filter-btn px-8 py-3 text-gray-400 font-bold tracking-widest uppercase";
+        });
+        event.target.classList.add('bg-black', 'text-white', 'rounded-xl', 'shadow-lg');
+        renderWork(cat);
+    }
+
+    // 7. 윈도우 스크롤 이벤트 (화살표 제어 및 진행도)
+    window.addEventListener('scroll', () => {
+        const scrollHint = document.getElementById('scroll-hint');
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        
+        document.getElementById("scroll-progress-bar").style.width = scrolled + "%";
+
+        // 스크롤 화살표 로직: 맨 위일 때만 보이고, 100px만 내려가도 투명하게 사라짐
+        if (scrollHint) {
+            if (winScroll > 50) {
+                scrollHint.style.opacity = "0";
+                scrollHint.style.pointerEvents = "none";
+            } else {
+                scrollHint.style.opacity = "0.6";
+                scrollHint.style.pointerEvents = "auto";
+            }
+        }
+        reveal(); 
+    });
+
+    // 8. 페이지 로드 시 보정 작업
+    window.onload = () => {
+        // 타이틀 글자 잘림 방지 (여백 강제 부여)
+        const gradients = document.querySelectorAll('.text-gradient-animate');
+        gradients.forEach(el => {
+            el.style.paddingRight = "20px";
+            el.style.display = "inline-block";
+        });
+
+        // 비행기 아이콘 겹침 방지 (버튼 간격 조정)
+        const btn = document.querySelector('a[href="#work"]');
+        if(btn) btn.classList.add('justify-center', 'gap-4');
+
+        window.scrollTo(0, 0); // 다시 한 번 상단 고정
+        renderWork();
+        reveal();
+    };
