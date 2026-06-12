@@ -1,3 +1,4 @@
+
     // 1. 초기 설정 및 데이터 로드
     let editId = null;
     let projects = JSON.parse(localStorage.getItem('flights_v3')) || [
@@ -209,3 +210,8 @@
         renderWork();
         reveal();
     };
+window.onload = () => {
+    window.scrollTo(0, 0); // 로드되자마자 맨 위로
+    renderWork();
+    reveal();
+};
