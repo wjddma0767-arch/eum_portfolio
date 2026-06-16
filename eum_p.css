@@ -193,6 +193,6 @@ body { font-family: 'Pretendard', sans-serif; background-color: #ffffff; color: 
 }
 #License{width: 100%; display: flex;  flex-wrap: wrap;}
 #License>div{width: 33.3%;}
-#License h2{font-family: 'Pretendard_Semibold';}
+#License h2{font-family: 'Pretendard_Semibold'; font-style: italic; font-size: 3rem; line-height: 1;text-transform: uppercase;}
 #License p{font-size: 20px; font-family:'Pretendard_Semibold'; }
 #License SPAN{font-size: 16px;}
