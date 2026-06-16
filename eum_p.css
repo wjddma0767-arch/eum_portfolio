@@ -141,14 +141,15 @@ body { font-family: 'Pretendard', sans-serif; background-color: #ffffff; color: 
     color: #fff;
     border-radius: 7px;
 }
-#modal-body .info{width: 100%; margin: 0 auto;}
+#modal-body .info{width: 100%; margin: 0 auto; margin-bottom: 20px;}
 #modal-body .info ul{width: 100%; font-size: 20px;   margin-bottom: 20px; font-family: 'Pretendard_Semibold';}
 #modal-body .info li{font-size: 16px; padding: 5px; font-family: 'Pretendard_Regular';}
 #modal-body .info li:last-child{padding-bottom: 0;}
 
 #contact #my_info i{font-size: 30px;
     vertical-align: middle;
-    padding-right: 4px;}
+    padding-right: 4px;
+}
 
     .btn {
     display: flex;
@@ -183,3 +184,13 @@ body { font-family: 'Pretendard', sans-serif; background-color: #ffffff; color: 
 .text {
     font-size: 18px;
 }
+
+#careerModal #car_list span{
+    font-family: 'Pretendard_Semibold';
+    display: inline-block;
+    width: 100%;
+
+}
+#License{}
+#License P{}
+#License SPAN{}
