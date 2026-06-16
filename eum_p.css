@@ -145,3 +145,7 @@ body { font-family: 'Pretendard', sans-serif; background-color: #ffffff; color: 
 #modal-body .info ul{width: 100%; font-size: 20px;   margin-bottom: 20px; font-family: 'Pretendard_Semibold';}
 #modal-body .info li{font-size: 16px; padding: 5px; font-family: 'Pretendard_Regular';}
 #modal-body .info li:last-child{padding-bottom: 0;}
+
+#contact #my_info i{font-size: 30px;
+    vertical-align: middle;
+    padding-right: 4px;}
