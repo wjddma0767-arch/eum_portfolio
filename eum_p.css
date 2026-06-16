@@ -96,8 +96,8 @@ body { font-family: 'Pretendard', sans-serif; background-color: #ffffff; color: 
     100% { opacity: 0; transform: translateY(5px) rotate(45deg); }
 }
 
-.modal-body .feelframe{display: inline; padding: 15px;}
-.modal-body .info{width: 100%; margin: 0 auto;}
-.modal-body .info h1{font-size: 30px;}
-.modal-body .info ul{width: 100%; font-size: 22px;}
-.modal-body .info li{font-size: 16px;}
+#modal-body .feelframe{display: inline; padding: 15px;}
+#modal-body .info{width: 100%; margin: 0 auto;}
+#modal-body .info h1{font-size: 30px;}
+#modal-body .info ul{width: 100%; font-size: 22px;}
+#modal-body .info li{font-size: 16px;}
