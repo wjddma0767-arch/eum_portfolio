@@ -215,3 +215,12 @@ window.onload = () => {
     renderWork();
     reveal();
 };
+
+function copyAndGo(text, url) {
+    navigator.clipboard.writeText(text).then(() => {
+        alert(text + " 가 복사되었습니다!");
+        window.location.href = url;
+    }).catch(err => {
+        console.error('복사 실패:', err);
+    });
+}

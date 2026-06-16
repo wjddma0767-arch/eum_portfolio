@@ -149,3 +149,37 @@ body { font-family: 'Pretendard', sans-serif; background-color: #ffffff; color: 
 #contact #my_info i{font-size: 30px;
     vertical-align: middle;
     padding-right: 4px;}
+
+    .btn {
+    display: flex;
+    align-items: center;
+    padding: 15px 30px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: bold;
+    font-family: sans-serif;
+    transition: transform 0.2s;
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+.icon, .icon-n {
+    background: white;
+    color: #536def;
+    font-size: 10px;
+    padding: 2px 5px;
+    border-radius: 50%;
+    margin-right: 10px;
+    font-weight: 900;
+}
+
+.btn-naver .icon-n {
+    color: black;
+    border-radius: 5px;
+}
+
+.text {
+    font-size: 18px;
+}
