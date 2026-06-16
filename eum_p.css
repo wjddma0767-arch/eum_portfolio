@@ -191,6 +191,6 @@ body { font-family: 'Pretendard', sans-serif; background-color: #ffffff; color: 
     width: 100%;
 
 }
-#License{}
-#License P{}
-#License SPAN{}
+#License{width: 100%; display: flex;  flex-wrap: wrap;}
+#License P{width: 33.3%;}
+#License SPAN{font-size: 16px;}
