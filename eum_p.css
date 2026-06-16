@@ -96,6 +96,37 @@ body { font-family: 'Pretendard', sans-serif; background-color: #ffffff; color: 
     100% { opacity: 0; transform: translateY(5px) rotate(45deg); }
 }
 
+/* 1. 타이틀 그라데이션 애니메이션 (잘림 방지 추가) */
+.text-gradient-animate {
+    background: linear-gradient(to right, #007AFF, #00C6FF, #007AFF);
+    background-size: 200% auto;
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: shimmer 3s linear infinite;
+    
+    /* [수정] 이탤릭체 잘림 방지 */
+    display: inline-block;
+    padding-right: 0.15em; /* 우측에 여유 공간 부여 */
+    margin-right: -0.1em;  /* 여백으로 인한 간격 벌어짐 방지 */
+    font-style: italic;    /* HTML에서 빼고 CSS에서 일괄 관리 권장 */
+}
+
+/* 2. 스크롤 힌트 위치 및 레이어 순서 조정 */
+.scroll-indicator {
+    position: absolute;
+    bottom: 20px; /* 위치를 조금 더 아래로 내림 */
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.4s ease; /* 애니메이션 부드럽게 */
+    z-index: 1; /* 버튼(보통 z-index 10이상)보다 낮게 설정하여 겹쳐도 뒤로 가게 함 */
+    pointer-events: none; /* 클릭 방해 금지 */
+}
+
 #modal-body .feelframe{display: inline; padding: 15px;}
 #modal-body .info{width: 100%; margin: 0 auto;}
 #modal-body .info h1{font-size: 30px;}
