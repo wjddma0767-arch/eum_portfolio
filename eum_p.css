@@ -210,5 +210,5 @@ body { font-family: 'Pretendard', sans-serif; background-color: #ffffff; color: 
     width: 100%;
     margin: 5rem 0;
 }
-#License p{font-size: 1.2rem font-family:'Pretendard_Semibold'; }
+#License p{font-size: 1.2rem; font-family: 'Pretendard_Semibold';}
 #License SPAN{font-size: 1rem;}
