@@ -1,0 +1,720 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+:root { --main-blue: #307fff; --bg-light: #F4F9FF; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Pretendard', sans-serif; background: #fff; color: #333; overflow-x: hidden; }
+
+/* Section 1: 코들 메쉬 그라데이션 및 몽환적인 스팟 조명 효과 */
+.section-hero { 
+    height: 100vh; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center; 
+    position: relative; 
+    /* 고화질 렌더링을 유도하는 Pure CSS 멀티 그라데이션 배경 */
+    background: radial-gradient(at 15% 15%, rgba(48, 127, 255, 0.15) 0px, transparent 55%),
+                radial-gradient(at 85% 10%, rgba(225, 120, 255, 0.1) 0px, transparent 50%),
+                radial-gradient(at 50% 85%, rgba(235, 245, 255, 0.7) 0px, transparent 60%),
+                #f8fbff;
+    overflow: hidden;
+}
+.hero-text-wrap { text-align: center; z-index: 2; }
+.hero-text-wrap .sub-title { 
+    font-size: 1.1rem; 
+    font-weight: 700; 
+    color: var(--main-blue); 
+    background: rgba(48, 127, 255, 0.08); 
+    padding: 8px 18px; 
+    border-radius: 30px; 
+    display: inline-block; 
+    margin-bottom: 25px; 
+    letter-spacing: -0.02em;
+}
+.main-title { 
+    font-size: 4.8rem; 
+    font-weight: 900; 
+    color: #121824; 
+    letter-spacing: -0.03em; 
+    line-height: 1.15;
+}
+
+/* 코들 스타일 3D 둥근 모서리 CTA 버튼 */
+.btn-hero-cta {
+    margin-top: 35px;
+    background: linear-gradient(135deg, #307fff 0%, #1a63df 100%);
+    color: #fff;
+    border: none;
+    padding: 16px 36px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 10px 25px rgba(48, 127, 255, 0.3);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    letter-spacing: -0.01em;
+}
+.btn-hero-cta:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(48, 127, 255, 0.45);
+}
+
+/* 무중력 상태처럼 위아래로 둥실대는 자연스러운 부유 모션 프레임 */
+@keyframes float1 {
+    0% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-12px) rotate(1.5deg); }
+    100% { transform: translateY(0px) rotate(0deg); }
+}
+@keyframes float2 {
+    0% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(10px) rotate(-2deg); }
+    100% { transform: translateY(0px) rotate(0deg); }
+}
+@keyframes float3 {
+    0% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-8px) rotate(1deg); }
+    100% { transform: translateY(0px) rotate(0deg); }
+}
+.png-obj { position: absolute; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 1; }
+.png-obj img { width: 100%; filter: drop-shadow(0 20px 30px rgba(0,0,0,0.06)); }
+.p1 { width: 300px; height: 200px; top: 20%; left: 8%; animation: float1 5s ease-in-out infinite; }
+.p2 { width: 190px; height: 160px; top: 11%; right: 12%; animation: float2 6s ease-in-out infinite; }
+.p3 { width: 260px; height: 200px; bottom: 8%; right: 7%; animation: float3 5.5s ease-in-out infinite; }
+
+
+/* Section 2: Horizontal Scroll (완성된 기존 피벗 형태 유지) */
+.section-horizontal { height: 100vh; background: #fff; }
+.horizontal-sticky { position: relative; top: 0; height: 100vh; overflow: hidden; display: flex; flex-direction: column; justify-content: center; }
+.sec-title { text-align: center; font-size: 3rem; margin-bottom: 50px; font-weight: 800; letter-spacing: -0.02em; color: #121824;}
+.cards-container { 
+    display: flex; 
+    padding-left: calc(50vw - 225px); 
+    gap: 100px; 
+    perspective: 1000px; 
+}
+.card-item { min-width: 450px; height: 550px; }
+.card-inner { 
+    width: 100%; height: 100%; border-radius: 20px; 
+    position: relative; overflow: hidden; 
+    box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+    background: #fff;
+    transition: transform 0.5s ease;
+}
+.card-inactive-content {
+    position: absolute;
+    inset: 0;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    transition: opacity 0.4s ease;
+    z-index: 1;
+}
+.card-inactive-content img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.card-active-content { 
+    position: absolute; 
+    inset: 0; 
+    background: rgba(18, 24, 36, 0.85); 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center;
+    color: #fff; 
+    opacity: 0; 
+    transition: opacity 0.4s ease; 
+    padding: 40px; 
+    text-align: center;
+    z-index: 2;
+}
+.card-active-content h3{ font-size: 1.8rem; margin-bottom: 15px; font-weight: 700;}
+.card-active-content p{ font-size: 1rem; line-height: 1.6;}
+.card-item.active .card-inner { transform: scale(1.05); }
+.card-item.active .card-active-content { opacity: 1; }
+.card-item.active .card-inactive-content { opacity: 0.6; } /* 0에서 0.5 ~ 0.8 사이의 값으로 변경 */
+
+
+/* Section 3: Stack (기존 만족하신 코드 완벽 고수) */
+.section-stack { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; background: var(--bg-light); }
+.stack-wrapper { position: relative; width: 600px; height: 200px; z-index: 2; display: flex; align-items: flex-end;}
+.stack-box { 
+    position: absolute; width: 100%; background: #fff; border-radius: 15px; padding: 40px;
+    display: flex; gap: 20px; align-items: center; box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    opacity: 0; transform: translateY(50px); transition: 0.5s ease-in-out;
+}
+.stack-box.active { opacity: 1; transform: translateY(0); z-index: 10; }
+.stack-box.peek { opacity: 0.4; transform: translateY(20px) scale(0.95); z-index: 5; display: flex !important; }
+.stack-box .icon{width: 20%; text-align: center;}
+.stack-box .icon img{width: 100%;}
+.stack-box .txt{width: 80%;display: flex;flex-direction:column;}
+.stack-box .txt h3{margin-bottom: 15px; font-size: 1.4rem; color: #121824;}
+.stack-box .txt p{line-height: 22px; color: #4a5568;}
+.bg-text { position: absolute; font-size: 15vw; font-weight: 900; color: rgba(0,71,255,0.04); z-index: 1; bottom: 10%; letter-spacing: 20px; }
+
+
+/* Section 4: Works (유리막이 씌워진 듯한 글래스모피즘 & 부드러운 카드 인터랙션 도입) */
+.section-works { 
+    padding: 120px 10%; 
+    background: linear-gradient(180deg, #F4F9FF 0%, #Eaf3fc 100%); 
+}
+.work-item { 
+    display: flex; 
+    background: rgba(255, 255, 255, 0.75); 
+    backdrop-filter: blur(20px); 
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    margin-bottom: 60px; 
+    height: 420px; 
+    align-items: center; 
+    border-radius: 24px; /* 더 미니멀하고 둥근 형태 */
+    overflow: hidden; 
+    box-shadow: 0 20px 50px rgba(133, 145, 165, 0.1);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.work-item:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 30px 60px rgba(48, 127, 255, 0.12);
+    border: 1px solid rgba(48, 127, 255, 0.35); /* 마우스 올렸을 때 메인 컬러로 보더 하이라이팅 */
+}
+.work-info { 
+    flex: 1.1; 
+    padding: 60px; 
+}
+.work-info h3 { 
+    margin-bottom: 12px; 
+    font-size: 1.8rem; 
+    font-weight: 800; 
+    color: #121824;
+    letter-spacing: -0.02em;
+}
+.work-info p { 
+    line-height: 1.65; 
+    color: #4a5568; 
+    font-size: 1.05rem;
+}
+.work-thumb { 
+    flex: 0.9; 
+    background: #f7fafc; 
+    height: 100%; 
+    overflow: hidden;
+}
+.work-thumb img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.work-item:hover .work-thumb img {
+    transform: scale(1.04); /* 썸네일 이미지 미세 줌인 */
+}
+
+/* 세련된 크기 조율과 투명 배경의 태그 처리 */
+.tags {
+    margin-top: 25px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.tags span { 
+    display: inline-block; 
+    padding: 6px 14px; 
+    background: rgba(48, 127, 255, 0.08); 
+    border-radius: 50px; 
+    font-size: 12px; 
+    font-weight: 600;
+    color: var(--main-blue); 
+    margin: 0;
+    letter-spacing: -0.01em;
+}
+
+/* 코들 스타일의 가벼운 화살표 유도 인터랙션 */
+.btn-more { 
+    margin-top: 35px; 
+    background: var(--main-blue); 
+    color: #fff; 
+    border: none; 
+    padding: 12px 28px; 
+    cursor: pointer; 
+    border-radius: 50px; 
+    font-weight: 700;
+    font-size: 0.95rem;
+    box-shadow: 0 6px 15px rgba(48, 127, 255, 0.2);
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.btn-more::after {
+    content: "→";
+    font-size: 1.1rem;
+    transition: transform 0.3s ease;
+}
+.btn-more:hover {
+    background: #1a63df;
+    box-shadow: 0 10px 20px rgba(48, 127, 255, 0.3);
+    transform: translateY(-2px);
+}
+.btn-more:hover::after {
+    transform: translateX(4px); /* 화살표 슬라이드 애니메이션 */
+}
+
+
+/* Reveal & Footer (다크 네온 디자인 전면 보완) */
+.reveal { opacity: 0; transform: translateY(50px); transition: 1s; }
+.reveal.active { opacity: 1; transform: translateY(0); }
+
+.footer { 
+    position: relative;
+    padding: 120px 10% 40px 10%; 
+    /* 세련된 다크 그라데이션으로 마감 */
+    background: linear-gradient(135deg, #090c14 0%, #111524 100%); 
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 80vh;
+}
+.footer-content { 
+    text-align: center; 
+    margin-top: 60px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.footer-content h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #cbd5e0;
+    letter-spacing: -0.02em;
+    line-height: 1.5;
+    margin-bottom: 25px;
+}
+.email-link { 
+    font-size: 3.5rem; 
+    color: #38bdf8; 
+    text-decoration: none; 
+    font-weight: 900; 
+    display: inline-block; 
+    /* color와 text-shadow만 CSS 트랜지션을 주어 GSAP과 충돌하지 않게 처리 */
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+.email-link:hover { 
+    color: #60a5fa;
+    text-shadow: 0 0 30px rgba(56, 189, 248, 0.45);
+}
+
+/* 하단 브랜드 고지 라인 */
+.footer-bottom {
+    margin-top: 80px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding-top: 35px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    color: #4a5568;
+}
+.footer-bottom-brand {
+    font-weight: 700;
+    color: #718096;
+    letter-spacing: 0.02em;
+}
+.footer-bottom-links {
+    display: flex;
+    gap: 25px;
+}
+.footer-bottom-links a {
+    color: #718096;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+.footer-bottom-links a:hover {
+    color: #38bdf8;
+}
+
+
+/* 모달 상세 스타일 보완 */
+.modal-content {
+    position: relative;
+    background: #fff;
+    width: 95%;
+    max-width: 1320px;   
+    max-height: 90vh; 
+    overflow-y: auto; 
+    padding: 40px 30px 30px 30px; 
+    border-radius: 12px;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+    animation: fadeIn 0.3s ease;
+}
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none; 
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+.modal.active {
+    display: flex; 
+}
+/* [수정] 모달 닫기 버튼 - 스크롤을 내려도 항상 고정되며, 시인성을 높인 글래스형 디자인 */
+.modal-close {
+    position: fixed; /* absolute에서 fixed로 변경하여 스크롤 고정 */
+    top: 30px;
+    right: 40px;
+    background: rgba(255, 255, 255, 0.85); /* 흰색 반투명 동그라미 배경 추가 */
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    font-size: 26px;
+    line-height: 1;
+    color: #333;
+    cursor: pointer;
+    z-index: 1100; /* 상세 내용물보다 무조건 위에 보이도록 설정 */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.modal-close:hover {
+    color: var(--main-blue);
+    transform: scale(1.1) rotate(90deg); /* 살짝 커지며 회전하는 위트 있는 모션 추가 */
+    box-shadow: 0 6px 20px rgba(48, 127, 255, 0.25);
+    background: #fff;
+}
+.modal-body h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: #111;
+}
+.modal-body img {
+    display: block;
+    margin-top: 20px;
+}
+.modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6); 
+}
+
+@keyframes fadeIn {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-body img {
+    max-width: 100%;  
+    height: auto;     
+    display: block;
+    margin: 20px auto 0 auto; 
+    border-radius: 8px; 
+}
+
+.modal-content::-webkit-scrollbar {
+    width: 8px; 
+}
+.modal-content::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05); 
+    border-radius: 10px;
+}
+.modal-content::-webkit-scrollbar-thumb {
+    background: var(--main-blue); 
+    border-radius: 10px;
+}
+.modal-content::-webkit-scrollbar-thumb:hover {
+    background: #1a63df; 
+}
+
+/* ==========================================================================
+   동적 모달 공통 레이아웃 스타일 (feelframe, keyft 등 공통 적용)
+   ========================================================================== */
+.modal .modal-body {
+    padding: 10px 0;
+}
+.modal .modal-body h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #121824;
+    margin-bottom: 20px;
+    letter-spacing: -0.02em;
+}
+/* 사이트 바로가기 버튼화 */
+.modal .modal-body .feelframe {
+    display: inline-block;
+    background: var(--main-blue);
+    color: #fff;
+    text-decoration: none;
+    padding: 12px 28px;
+    font-weight: 700;
+    border-radius: 50px;
+    font-size: 0.95rem;
+    box-shadow: 0 5px 15px rgba(48, 127, 255, 0.2);
+    margin-bottom: 40px;
+    transition: all 0.3s ease;
+}
+.modal .modal-body .feelframe:hover {
+    background: #1a63df;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(48, 127, 255, 0.3);
+}
+/* 리스트 구조화 및 타이포그래피 정돈 */
+.modal .modal-body .info {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+.modal .modal-body ul {
+    list-style: none;
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: #121824;
+    border-left: 4px solid var(--main-blue);
+    padding-left: 15px;
+}
+.modal .modal-body li {
+    list-style: none;
+    font-weight: 400;
+    font-size: 0.95rem;
+    color: #4a5568;
+    margin-top: 8px;
+    line-height: 1.2;
+}
+/* ==========================================================================
+   iframe 반응형 높이 지정
+   ========================================================================== */
+.feelframe-iframe {
+    width: 100%;
+    height: 80vh; /* 뷰포트 높이에 비례하여 상자 지정 */
+    border: none;
+    display: block;
+}
+
+
+/* ==========================================================================
+   모바일 & 태블릿 반응형 스타일 (화면 너비 768px 이하)
+   ========================================================================== */
+@media (max-width: 768px) {
+    /* 공통 타이틀 크기 조정 */
+    .sec-title { 
+        font-size: 2rem; 
+        margin-bottom: 35px; 
+    }
+
+    /* Section 1: Hero (모바일 텍스트 비율 조정 및 배경 오브젝트 간섭 최소화) */
+    .section-hero {
+        padding: 0 20px;
+    }
+    .main-title { 
+        font-size: 2.8rem; 
+        line-height: 1.2; 
+    }
+    .hero-text-wrap .sub-title {
+        font-size: 0.95rem;
+        padding: 6px 14px;
+        margin-bottom: 20px;
+    }
+    .btn-hero-cta {
+        margin-top: 25px;
+        padding: 14px 30px;
+        font-size: 0.95rem;
+    }
+    /* 무중력 오브젝트가 모바일 화면에서 글자를 가리지 않도록 크기와 투명도 조절 */
+    .p1 { width: 130px; height: auto; top: 16%; left: -2%; opacity: 0.45; }
+    .p2 { width: 85px; height: auto; top: 10%; right: 2%; opacity: 0.45; }
+    .p3 { width: 110px; height: auto; bottom: 8%; right: -2%; opacity: 0.45; }
+
+
+    /* Section 2: Horizontal Scroll (GSAP 가로 스크롤 연산 호환성 보장)
+       - JS의 실시간 가로폭 계산 방식과 일치하도록 카드 너비를 290px로 압축하고, 
+         컨테이너 패딩 값을 카드 절반 값(145px)만큼 빼서 정확한 화면 중앙 정렬을 구현합니다.
+       - JS와의 싱크를 위해 gap은 기존 100px를 유지합니다. */
+    .card-item { 
+        min-width: 290px; 
+        height: 420px; 
+        flex-shrink: 0; /* 강제 축소 방지 */
+    }
+    .cards-container { 
+        padding-left: calc(50vw - 145px); 
+        gap: 100px; 
+    }
+    .card-inner {
+        border-radius: 16px;
+    }
+    .card-active-content { 
+        padding: 24px; 
+    }
+    .card-active-content h3 { 
+        font-size: 1.35rem; 
+        margin-bottom: 10px; 
+    }
+    .card-active-content p { 
+        font-size: 0.85rem; 
+        line-height: 1.5; 
+    }
+
+
+    /* Section 3: Stack (고정 폭 600px 해제 및 모바일 최적화)
+       - 글자 줄바꿈을 고려하여 높이값을 230px로 소폭 늘려 텍스트 오버플로우를 방지합니다. */
+    .stack-wrapper { 
+        width: 100%;
+        max-width: 340px; 
+        height: 230px; 
+        padding: 0 10px;
+        align-items: center;
+    }
+    .stack-box { 
+        padding: 20px 15px; 
+        gap: 15px; 
+        border-radius: 12px;
+    }
+    .stack-box .icon { 
+        width: 45px; 
+        flex-shrink: 0;
+    }
+    .stack-box .txt { 
+        width: calc(100% - 45px); 
+    }
+    .stack-box .txt h3 { 
+        font-size: 1.1rem; 
+        margin-bottom: 6px; 
+    }
+    .stack-box .txt p { 
+        font-size: 0.8rem; 
+        line-height: 1.4; 
+    }
+    .bg-text { 
+        font-size: 18vw; 
+        bottom: 24%; 
+        letter-spacing: 10px; 
+    }
+
+
+    /* Section 4: Works (가로형 구조를 모바일에 적합한 세로 스택형으로 변환) */
+    .section-works { 
+        padding: 80px 20px; 
+    }
+    .work-item { 
+        flex-direction: column; 
+        height: auto; 
+        margin-bottom: 40px; 
+        border-radius: 16px; 
+    }
+    .work-thumb { 
+        width: 100%; 
+        height: 200px; 
+        order: 1; /* 이미지가 위쪽으로 오도록 배치 순서 조정 */
+    }
+    .work-info { 
+        width: 100%; 
+        padding: 25px 20px; 
+        order: 2; /* 텍스트 정보가 아래로 가도록 배치 순서 조정 */
+    }
+    .work-info h3 { 
+        font-size: 1.4rem; 
+        margin-bottom: 8px; 
+    }
+    .work-info p { 
+        font-size: 0.9rem; 
+        line-height: 1.5; 
+    }
+    .tags { 
+        margin-top: 15px; 
+        gap: 6px;
+    }
+    .tags span { 
+        padding: 4px 10px; 
+        font-size: 11px; 
+    }
+    .btn-more { 
+        margin-top: 25px; 
+        width: 100%; /* 모바일에서 터치하기 용이하도록 가로 전체 영역 적용 */
+        justify-content: center; 
+        padding: 12px 0;
+    }
+
+
+    /* Footer: 텍스트 유실 방지 및 레이아웃 정돈 */
+    .footer { 
+        padding: 80px 20px 30px 20px; 
+        min-height: auto;
+    }
+    .footer-content h2 {
+        font-size: 1.25rem;
+        line-height: 1.4;
+        margin-bottom: 20px;
+        word-break: keep-all; /* 모바일 단어 단위 줄바꿈 유지 */
+    }
+    .email-link { 
+        font-size: 1.8rem; /* 모바일 너비를 넘어가서 가로 스크롤이 생기지 않도록 크기 축소 */
+        word-break: break-all; 
+    }
+    .footer-bottom {
+        margin-top: 60px;
+        padding-top: 25px;
+        flex-direction: column; /* 세로 스택 배치 */
+        gap: 15px;
+        text-align: center;
+    }
+    .footer-bottom-links {
+        gap: 15px;
+    }
+
+
+    /* Modals: 모바일 화면 내 원활한 크기 조정 및 터치 제어 */
+    .modal-content {
+        padding: 65px 20px 25px 20px; 
+        width: 92%;
+        max-height: 85vh;
+    }
+    /* 스크롤 시 고정되는 우측 상단 닫기 버튼 배치 다듬기 */
+    .modal-close {
+        top: 15px;
+        right: 15px;
+        width: 42px;
+        height: 42px;
+        font-size: 22px;
+        z-index: 1200; /* 모바일 기기 터치 오류 방지 및 최상단 배치 */
+    }
+    .modal-body h2 {
+        font-size: 1.35rem;
+    }
+}
+
+/* ==========================================================================
+   초소형 모바일 대응 (화면 너비 480px 이하 미세 조정)
+   ========================================================================== */
+@media (max-width: 480px) {
+    .main-title { 
+        font-size: 2.3rem; 
+    }
+    .email-link { 
+        font-size: 1.5rem; 
+    }
+    .stack-wrapper {
+        max-width: 290px;
+        height: 250px; /* 좁은 폭으로 인해 길어지는 텍스트 수용 */
+    }
+    .card-item {
+        min-width: 260px;
+    }
+    .cards-container {
+        padding-left: calc(50vw - 130px); /* 260px의 절반을 빼서 중앙에 수렴 */
+    }
+}
