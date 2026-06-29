@@ -441,3 +441,215 @@ body { font-family: 'Pretendard', sans-serif; background: #fff; color: #333; ove
 .modal-content::-webkit-scrollbar-thumb:hover {
     background: #1a63df; 
 }
+
+/* ==========================================================================
+   모바일 & 태블릿 반응형 스타일 (화면 너비 768px 이하)
+   ========================================================================== */
+@media (max-width: 768px) {
+    /* 공통 타이틀 크기 조정 */
+    .sec-title { 
+        font-size: 2rem; 
+        margin-bottom: 35px; 
+    }
+
+    /* Section 1: Hero (모바일 텍스트 비율 조정 및 배경 오브젝트 간섭 최소화) */
+    .section-hero {
+        padding: 0 20px;
+    }
+    .main-title { 
+        font-size: 2.8rem; 
+        line-height: 1.2; 
+    }
+    .hero-text-wrap .sub-title {
+        font-size: 0.95rem;
+        padding: 6px 14px;
+        margin-bottom: 20px;
+    }
+    .btn-hero-cta {
+        margin-top: 25px;
+        padding: 14px 30px;
+        font-size: 0.95rem;
+    }
+    /* 무중력 오브젝트가 모바일 화면에서 글자를 가리지 않도록 크기와 투명도 조절 */
+    .p1 { width: 130px; height: auto; top: 16%; left: -2%; opacity: 0.45; }
+    .p2 { width: 85px; height: auto; top: 10%; right: 2%; opacity: 0.45; }
+    .p3 { width: 110px; height: auto; bottom: 8%; right: -2%; opacity: 0.45; }
+
+
+    /* Section 2: Horizontal Scroll (GSAP 가로 스크롤 연산 호환성 보장)
+       - JS의 실시간 가로폭 계산 방식과 일치하도록 카드 너비를 290px로 압축하고, 
+         컨테이너 패딩 값을 카드 절반 값(145px)만큼 빼서 정확한 화면 중앙 정렬을 구현합니다.
+       - JS와의 싱크를 위해 gap은 기존 100px를 유지합니다. */
+    .card-item { 
+        min-width: 290px; 
+        height: 420px; 
+        flex-shrink: 0; /* 강제 축소 방지 */
+    }
+    .cards-container { 
+        padding-left: calc(50vw - 145px); 
+        gap: 100px; 
+    }
+    .card-inner {
+        border-radius: 16px;
+    }
+    .card-active-content { 
+        padding: 24px; 
+    }
+    .card-active-content h3 { 
+        font-size: 1.35rem; 
+        margin-bottom: 10px; 
+    }
+    .card-active-content p { 
+        font-size: 0.85rem; 
+        line-height: 1.5; 
+    }
+
+
+    /* Section 3: Stack (고정 폭 600px 해제 및 모바일 최적화)
+       - 글자 줄바꿈을 고려하여 높이값을 230px로 소폭 늘려 텍스트 오버플로우를 방지합니다. */
+    .stack-wrapper { 
+        width: 100%;
+        max-width: 340px; 
+        height: 230px; 
+        padding: 0 10px;
+        align-items: center;
+    }
+    .stack-box { 
+        padding: 20px 15px; 
+        gap: 15px; 
+        border-radius: 12px;
+    }
+    .stack-box .icon { 
+        width: 45px; 
+        flex-shrink: 0;
+    }
+    .stack-box .txt { 
+        width: calc(100% - 45px); 
+    }
+    .stack-box .txt h3 { 
+        font-size: 1.1rem; 
+        margin-bottom: 6px; 
+    }
+    .stack-box .txt p { 
+        font-size: 0.8rem; 
+        line-height: 1.4; 
+    }
+    .bg-text { 
+        font-size: 18vw; 
+        bottom: 24%; 
+        letter-spacing: 10px; 
+    }
+
+
+    /* Section 4: Works (가로형 구조를 모바일에 적합한 세로 스택형으로 변환) */
+    .section-works { 
+        padding: 80px 20px; 
+    }
+    .work-item { 
+        flex-direction: column; 
+        height: auto; 
+        margin-bottom: 40px; 
+        border-radius: 16px; 
+    }
+    .work-thumb { 
+        width: 100%; 
+        height: 200px; 
+        order: 1; /* 이미지가 위쪽으로 오도록 배치 순서 조정 */
+    }
+    .work-info { 
+        width: 100%; 
+        padding: 25px 20px; 
+        order: 2; /* 텍스트 정보가 아래로 가도록 배치 순서 조정 */
+    }
+    .work-info h3 { 
+        font-size: 1.4rem; 
+        margin-bottom: 8px; 
+    }
+    .work-info p { 
+        font-size: 0.9rem; 
+        line-height: 1.5; 
+    }
+    .tags { 
+        margin-top: 15px; 
+        gap: 6px;
+    }
+    .tags span { 
+        padding: 4px 10px; 
+        font-size: 11px; 
+    }
+    .btn-more { 
+        margin-top: 25px; 
+        width: 100%; /* 모바일에서 터치하기 용이하도록 가로 전체 영역 적용 */
+        justify-content: center; 
+        padding: 12px 0;
+    }
+
+
+    /* Footer: 텍스트 유실 방지 및 레이아웃 정돈 */
+    .footer { 
+        padding: 80px 20px 30px 20px; 
+        min-height: auto;
+    }
+    .footer-content h2 {
+        font-size: 1.25rem;
+        line-height: 1.4;
+        margin-bottom: 20px;
+        word-break: keep-all; /* 모바일 단어 단위 줄바꿈 유지 */
+    }
+    .email-link { 
+        font-size: 1.8rem; /* 모바일 너비를 넘어가서 가로 스크롤이 생기지 않도록 크기 축소 */
+        word-break: break-all; 
+    }
+    .footer-bottom {
+        margin-top: 60px;
+        padding-top: 25px;
+        flex-direction: column; /* 세로 스택 배치 */
+        gap: 15px;
+        text-align: center;
+    }
+    .footer-bottom-links {
+        gap: 15px;
+    }
+
+
+    /* Modals: 모바일 화면 내 원활한 크기 조정 및 터치 제어 */
+    .modal-content {
+        padding: 65px 20px 25px 20px; 
+        width: 92%;
+        max-height: 85vh;
+    }
+    /* 스크롤 시 고정되는 우측 상단 닫기 버튼 배치 다듬기 */
+    .modal-close {
+        top: 15px;
+        right: 15px;
+        width: 42px;
+        height: 42px;
+        font-size: 22px;
+        z-index: 1200; /* 모바일 기기 터치 오류 방지 및 최상단 배치 */
+    }
+    .modal-body h2 {
+        font-size: 1.35rem;
+    }
+}
+
+/* ==========================================================================
+   초소형 모바일 대응 (화면 너비 480px 이하 미세 조정)
+   ========================================================================== */
+@media (max-width: 480px) {
+    .main-title { 
+        font-size: 2.3rem; 
+    }
+    .email-link { 
+        font-size: 1.5rem; 
+    }
+    .stack-wrapper {
+        max-width: 290px;
+        height: 250px; /* 좁은 폭으로 인해 길어지는 텍스트 수용 */
+    }
+    .card-item {
+        min-width: 260px;
+    }
+    .cards-container {
+        padding-left: calc(50vw - 130px); /* 260px의 절반을 빼서 중앙에 수렴 */
+    }
+}
