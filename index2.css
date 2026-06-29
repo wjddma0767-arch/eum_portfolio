@@ -135,7 +135,7 @@ body { font-family: 'Pretendard', sans-serif; background: #fff; color: #333; ove
 .card-active-content p{ font-size: 1rem; line-height: 1.6;}
 .card-item.active .card-inner { transform: scale(1.05); }
 .card-item.active .card-active-content { opacity: 1; }
-.card-item.active .card-inactive-content { opacity: 0; }
+.card-item.active .card-inactive-content { opacity: 0.6; } /* 0에서 0.5 ~ 0.8 사이의 값으로 변경 */
 
 
 /* Section 3: Stack (기존 만족하신 코드 완벽 고수) */
@@ -441,6 +441,71 @@ body { font-family: 'Pretendard', sans-serif; background: #fff; color: #333; ove
 .modal-content::-webkit-scrollbar-thumb:hover {
     background: #1a63df; 
 }
+
+/* ==========================================================================
+   동적 모달 공통 레이아웃 스타일 (feelframe, keyft 등 공통 적용)
+   ========================================================================== */
+.modal .modal-body {
+    padding: 10px 0;
+}
+.modal .modal-body h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #121824;
+    margin-bottom: 20px;
+    letter-spacing: -0.02em;
+}
+/* 사이트 바로가기 버튼화 */
+.modal .modal-body .feelframe {
+    display: inline-block;
+    background: var(--main-blue);
+    color: #fff;
+    text-decoration: none;
+    padding: 12px 28px;
+    font-weight: 700;
+    border-radius: 50px;
+    font-size: 0.95rem;
+    box-shadow: 0 5px 15px rgba(48, 127, 255, 0.2);
+    margin-bottom: 40px;
+    transition: all 0.3s ease;
+}
+.modal .modal-body .feelframe:hover {
+    background: #1a63df;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(48, 127, 255, 0.3);
+}
+/* 리스트 구조화 및 타이포그래피 정돈 */
+.modal .modal-body .info {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+.modal .modal-body ul {
+    list-style: none;
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: #121824;
+    border-left: 4px solid var(--main-blue);
+    padding-left: 15px;
+}
+.modal .modal-body li {
+    list-style: none;
+    font-weight: 400;
+    font-size: 0.95rem;
+    color: #4a5568;
+    margin-top: 8px;
+    line-height: 1.2;
+}
+/* ==========================================================================
+   iframe 반응형 높이 지정
+   ========================================================================== */
+.feelframe-iframe {
+    width: 100%;
+    height: 80vh; /* 뷰포트 높이에 비례하여 상자 지정 */
+    border: none;
+    display: block;
+}
+
 
 /* ==========================================================================
    모바일 & 태블릿 반응형 스타일 (화면 너비 768px 이하)

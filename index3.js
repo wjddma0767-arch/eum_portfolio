@@ -110,7 +110,7 @@ ScrollTrigger.create({
 });
 
 
-// [추가] 6. 모달(팝업) 열기 및 닫기 제어
+// [수정] 6. 모달(팝업) 열기 및 닫기 제어 (Fetch 자동 연동형)
 document.addEventListener('DOMContentLoaded', () => {
     const moreButtons = document.querySelectorAll('.btn-more');
     const closeButtons = document.querySelectorAll('.modal-close');
@@ -121,7 +121,37 @@ document.addEventListener('DOMContentLoaded', () => {
         button.addEventListener('click', () => {
             const targetId = button.getAttribute('data-target');
             const targetModal = document.getElementById(targetId);
+            
             if (targetModal) {
+                // 모달 엘리먼트에 data-file 속성이 명시되어 있는지 확인합니다.
+                const fileToLoad = targetModal.getAttribute('data-file');
+                
+                if (fileToLoad) {
+                    const modalBody = targetModal.querySelector('.modal-body');
+                    
+                    // 최초 1회만 콘텐츠를 불러오도록 검사
+                    if (modalBody && !modalBody.getAttribute('data-loaded')) {
+                        modalBody.innerHTML = '<h2>로딩 중...</h2>'; // 로딩 안내 메세지
+                        
+                        fetch(fileToLoad)
+                            .then(response => {
+                                if (!response.ok) throw new Error('Network response was not ok');
+                                return response.text();
+                            })
+                            .then(html => {
+                                // 가져온 HTML 문서 내에서 body 내용만 추출하여 삽입
+                                const parser = new DOMParser();
+                                const doc = parser.parseFromString(html, 'text/html');
+                                modalBody.innerHTML = doc.body.innerHTML;
+                                modalBody.setAttribute('data-loaded', 'true');
+                            })
+                            .catch(err => {
+                                modalBody.innerHTML = '<h2>오류</h2><p>프로젝트 정보를 불러오는 데 실패했습니다.</p>';
+                                console.error(err);
+                            });
+                    }
+                }
+
                 targetModal.classList.add('active');
                 document.body.style.overflow = 'hidden'; // 뒷배경 스크롤 방지
             }
