@@ -10,17 +10,87 @@ const tlHero = gsap.timeline();
 tlHero.from(".main-title, .sub-title", { y: 100, opacity: 0, duration: 1, ease: "power4.out" })
       .from(".png-obj", { y: -500, opacity: 0, stagger: 0.2, duration: 1.2, ease: "bounce.out" }, "-=0.5");
 
-// 2. 섹션 2 가로 스크롤 및 피벗 효과 (코들 스타일)
+// 2. 섹션 2 가로 스크롤 및 돔(Dome) 아크 실시간 변환 연산 (관성 복원 정렬 탑재)
 const cards = gsap.utils.toArray(".card-item");
-let lastIdx = -1; // 현재 화면 중심에 있는 카드 인덱스를 기억하는 변수
+let lastIdx = -1;
 
-// cards-container 자체를 가로로 정밀 스크롤(translate)합니다.
-// (카드 크기 + gap 크기를 완벽하게 합산하여 1, 2, 3번 모두 완벽히 뷰포트 정중앙에 안착합니다)
+// 카드의 돔형 원형 배치 및 크기/기울기를 정밀하게 계산하는 물리 함수
+function updateCardTransforms() {
+    const viewportCenterX = window.innerWidth / 2;
+    
+    // 모션 아크 포물선의 급격함을 제어하는 거리 계수
+    const maxDistance = window.innerWidth > 768 ? window.innerWidth * 0.45 : window.innerWidth * 0.65;
+    
+    let closestCardIdx = 0;
+    let minDistance = Infinity;
+
+    cards.forEach((card, i) => {
+        const cardRect = card.getBoundingClientRect();
+        const cardCenterX = cardRect.left + cardRect.width / 2;
+        const distanceFromCenter = cardCenterX - viewportCenterX;
+        const absDistance = Math.abs(distanceFromCenter);
+        
+        // 현재 실제로 화면 중앙에 가장 밀착한 카드를 역추적 (active 정합성 확보)
+        if (absDistance < minDistance) {
+            minDistance = absDistance;
+            closestCardIdx = i;
+        }
+
+        let ratio = distanceFromCenter / maxDistance;
+        ratio = Math.max(-1.3, Math.min(1.3, ratio)); // 한계 외곽 고정
+        const absRatio = Math.abs(ratio);
+        
+        // [A] 포물선 디핑 연산: 위아래 화면 공간의 안정을 위해 최대 하강폭을 미세 조정합니다 (140 -> 110)
+        // 화면 하단 경계를 넘지 않으면서도 수려한 라운드 궤적을 뚜렷하게 보존해 줍니다.
+        const targetY = Math.pow(absRatio, 1.8) * 110;
+        
+        // [B] 구체형 Z회전 연산: 카드가 구 위에 얹힌 듯 바깥 방향으로 회전 기우뚱 (최대 25도 회전)
+        const targetRotation = ratio * 25; 
+        
+        // [C] 극적인 크기 변화 (Scale 수치 미세 보정):
+        // 세로 공간 부족을 해결하기 위해 센터 카드의 스케일을 1.18로 낮추고, 사이드 카드는 원근감(0.7배)이 유지되도록 비율을 맞춥니다.
+        const targetScale = 1.18 - Math.pow(absRatio, 1.5) * 0.48;
+        
+        // [D] 가장자리 이탈 시 불투명도 지수 감쇄 (Alpha Fading)
+        const targetOpacity = 1.0 - Math.pow(absRatio, 1.5) * 0.85;
+        
+        // [E] 실시간 입체 스태킹 (z-index)
+        const calculatedZIndex = Math.round((1 - Math.min(1, absRatio)) * 20);
+        card.style.zIndex = calculatedZIndex;
+        
+        // 지연 없는 실시간 하드웨어 가속 적용
+        gsap.set(card.querySelector('.card-inner'), {
+            y: targetY,
+            rotation: targetRotation,
+            scale: targetScale,
+            opacity: targetOpacity
+        });
+    });
+
+    // 뷰포트 중심 추적 결과를 토대로 최적 시점에 활성화 클래스 토글
+    if (closestCardIdx !== lastIdx) {
+        lastIdx = closestCardIdx;
+        cards.forEach((card, i) => {
+            if (i === closestCardIdx) {
+                card.classList.add("active");
+            } else {
+                card.classList.remove("active");
+            }
+        });
+    }
+}
+
+// 스크롤 트윈 제어
 gsap.to(".cards-container", {
     x: () => {
-        const cardWidth = cards[0].offsetWidth; // 카드의 실시간 가로폭 (450px)
-        const gap = 100; // cards-container의 gap(100px)
-        return -(cardWidth + gap) * (cards.length - 1);
+        const card1 = cards[0];
+        const card2 = cards[1];
+        if (card1 && card2) {
+            // 브라우저 렌더링 엔진 오차 극복을 위해 DOM 오프셋 간격을 픽셀 단위로 직접 추출하여 완벽 계산
+            const actualOffset = card2.offsetLeft - card1.offsetLeft;
+            return -actualOffset * (cards.length - 1);
+        }
+        return 0;
     },
     ease: "none",
     scrollTrigger: {
@@ -28,36 +98,20 @@ gsap.to(".cards-container", {
         pin: true,
         scrub: 1,
         start: "top top",
-        end: "+=3000",
-        onUpdate: (self) => {
-            const progress = self.progress;
-            const idx = Math.round(progress * (cards.length - 1));
-            
-            // 인덱스가 실제로 변경되었을 때만 3D 피벗 애니메이션을 실행하여 버벅임 제거
-            if (idx !== lastIdx) {
-                lastIdx = idx;
-                
-                cards.forEach((card, i) => {
-                    card.classList.remove("active");
-                    
-                    // 지나간 카드 왼쪽으로 기울이기
-                    if (i < idx) {
-                        gsap.to(card, { rotationY: -35, rotationZ: -5, opacity: 0.3, scale: 0.8, duration: 0.3, overwrite: "auto" });
-                    } 
-                    // 현재 가운데 들어온 카드 정방향 노출
-                    else if (i === idx) {
-                        card.classList.add("active");
-                        gsap.to(card, { rotationY: 0, rotationZ: 0, opacity: 1, scale: 1, duration: 0.3, overwrite: "auto" });
-                    }
-                    // 대기 중인 오른쪽 카드 대기각 세우기
-                    else {
-                        gsap.to(card, { rotationY: 35, rotationZ: 5, opacity: 0.5, scale: 0.9, duration: 0.3, overwrite: "auto" });
-                    }
-                });
-            }
-        }
-    }
+        // [수정] 스크롤 범위 증가: 마지막 카드까지 완전히 전환되도록 end 값 조정
+        end: "+=3500", 
+        invalidateOnRefresh: true
+    },
+    // 스크롤 트윈 자체의 onUpdate 프레임 이벤트로 연동하여, scrub 관성이 굴러가는 모든 시간 동안 카드 회전/복원을 완벽히 갱신합니다.
+    onUpdate: updateCardTransforms 
 });
+
+// 초기 로드 시 대기 상태에서도 1번 카드는 대형화, 2/3번 카드는 아크 정렬 배치되도록 강제 호출
+updateCardTransforms();
+
+// 윈도우 크기 변경 시 및 스크롤 리프레시 시 정밀 궤적 보정 리셋 이벤트 연동
+window.addEventListener("resize", updateCardTransforms);
+ScrollTrigger.addEventListener("refresh", updateCardTransforms);
 // 3. 섹션 3: 2초 순환 스택 박스
 const stacks = document.querySelectorAll(".stack-box");
 let currentStack = 0;

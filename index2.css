@@ -4,7 +4,7 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: 'Pretendard', sans-serif; background: #fff; color: #333; overflow-x: hidden; }
 
-/* Section 1: 코들 메쉬 그라데이션 및 몽환적인 스팟 조명 효과 */
+/* Section 1: 코들 메쉬 그라데이션 및 테크 닷 패턴 효과 */
 .section-hero { 
     height: 100vh; 
     display: flex; 
@@ -12,51 +12,87 @@ body { font-family: 'Pretendard', sans-serif; background: #fff; color: #333; ove
     justify-content: center; 
     align-items: center; 
     position: relative; 
-    /* 고화질 렌더링을 유도하는 Pure CSS 멀티 그라데이션 배경 */
-    background: radial-gradient(at 15% 15%, rgba(48, 127, 255, 0.15) 0px, transparent 55%),
-                radial-gradient(at 85% 10%, rgba(225, 120, 255, 0.1) 0px, transparent 50%),
-                radial-gradient(at 50% 85%, rgba(235, 245, 255, 0.7) 0px, transparent 60%),
-                #f8fbff;
+    /* 고화질 렌더링을 유도하는 멀티 그라데이션 배경 */
+    background: radial-gradient(at 15% 15%, rgba(48, 127, 255, 0.18) 0px, transparent 55%),
+                radial-gradient(at 85% 10%, rgba(225, 120, 255, 0.12) 0px, transparent 50%),
+                radial-gradient(at 50% 85%, rgba(235, 245, 255, 0.75) 0px, transparent 60%),
+                #fcfdfe;
     overflow: hidden;
 }
-.hero-text-wrap { text-align: center; z-index: 2; }
-.hero-text-wrap .sub-title { 
-    font-size: 1.1rem; 
-    font-weight: 700; 
-    color: var(--main-blue); 
-    background: rgba(48, 127, 255, 0.08); 
-    padding: 8px 18px; 
-    border-radius: 30px; 
-    display: inline-block; 
-    margin-bottom: 25px; 
-    letter-spacing: -0.02em;
-}
-.main-title { 
-    font-size: 4.8rem; 
-    font-weight: 900; 
-    color: #121824; 
-    letter-spacing: -0.03em; 
-    line-height: 1.15;
+
+/* [추가] 테크 감성의 은은한 도트 그리드 백그라운드 레이어 */
+.section-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(48, 127, 255, 0.12) 1.5px, transparent 1.5px);
+    background-size: 35px 35px;
+    pointer-events: none;
+    opacity: 0.8;
+    z-index: 1;
 }
 
-/* 코들 스타일 3D 둥근 모서리 CTA 버튼 */
+.hero-text-wrap { text-align: center; z-index: 3; position: relative; }
+
+/* 글래스모피즘이 가미된 정교한 서브 타이틀 캡슐 */
+.hero-text-wrap .sub-title { 
+    font-size: 0.95rem; 
+    font-weight: 700; 
+    color: var(--main-blue); 
+    background: rgba(48, 127, 255, 0.05); 
+    border: 1px solid rgba(48, 127, 255, 0.15);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 8px 22px; 
+    border-radius: 50px; 
+    display: inline-block; 
+    margin-bottom: 25px; 
+    letter-spacing: 0.04em;
+    box-shadow: 0 4px 15px rgba(48, 127, 255, 0.04);
+}
+
+/* [수정] 밋밋한 단색에서 3톤 텍스트 그라데이션으로 화려하게 변경 */
+.main-title { 
+    font-size: 5.2rem; 
+    font-weight: 900; 
+    letter-spacing: -0.04em; 
+    line-height: 1.1;
+    background: linear-gradient(135deg, #0f172a 20%, #2563eb 55%, #7c3aed 100%);
+    background-clip:text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 20px;
+}
+
+/* 코들 스타일 3D 둥근 모서리 및 호버 인터랙션 CTA 버튼 */
 .btn-hero-cta {
-    margin-top: 35px;
-    background: linear-gradient(135deg, #307fff 0%, #1a63df 100%);
+    margin-top: 25px;
+    background: linear-gradient(135deg, #307fff 0%, #1d4ed8 100%);
     color: #fff;
     border: none;
-    padding: 16px 36px;
+    padding: 18px 42px;
     font-size: 1.05rem;
     font-weight: 700;
     border-radius: 50px;
     cursor: pointer;
-    box-shadow: 0 10px 25px rgba(48, 127, 255, 0.3);
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 10px 30px rgba(48, 127, 255, 0.35);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     letter-spacing: -0.01em;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+.btn-hero-cta::after {
+    content: "↓";
+    font-size: 1.25rem;
+    transition: transform 0.3s ease;
 }
 .btn-hero-cta:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 15px 30px rgba(48, 127, 255, 0.45);
+    transform: translateY(-4px);
+    box-shadow: 0 15px 35px rgba(48, 127, 255, 0.5), 0 0 20px rgba(124, 58, 237, 0.2);
+}
+.btn-hero-cta:hover::after {
+    transform: translateY(4px);
 }
 
 /* 무중력 상태처럼 위아래로 둥실대는 자연스러운 부유 모션 프레임 */
@@ -75,40 +111,133 @@ body { font-family: 'Pretendard', sans-serif; background: #fff; color: #333; ove
     50% { transform: translateY(-8px) rotate(1deg); }
     100% { transform: translateY(0px) rotate(0deg); }
 }
-.png-obj { position: absolute; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 1; }
-.png-obj img { width: 100%; filter: drop-shadow(0 20px 30px rgba(0,0,0,0.06)); }
-.p1 { width: 300px; height: 200px; top: 20%; left: 8%; animation: float1 5s ease-in-out infinite; }
-.p2 { width: 190px; height: 160px; top: 11%; right: 12%; animation: float2 6s ease-in-out infinite; }
-.p3 { width: 260px; height: 200px; bottom: 8%; right: 7%; animation: float3 5.5s ease-in-out infinite; }
+.png-obj { position: absolute; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 2; }
+
+/* [수정] 부유 이미지 뒤에 부드러운 하이엔드용 소프트 그림자 중첩 적용 */
+.png-obj img { 
+    width: 100%; 
+    filter: drop-shadow(0 30px 50px rgba(15, 23, 42, 0.12)) 
+            drop-shadow(0 10px 20px rgba(48, 127, 255, 0.08)); 
+}
+.p1 { width: 280px; height: auto; top: 18%; left: 10%; animation: float1 6s ease-in-out infinite; }
+.p2 { width: 170px; height: auto; top: 11%; right: 14%; animation: float2 7s ease-in-out infinite; }
+.p3 { width: 240px; height: auto; bottom: 8%; right: 9%; animation: float3 6.5s ease-in-out infinite; }
+
+/* [추가] 하단 스크롤 마우스 인디케이터 애니메이션 및 스타일 */
+.scroll-indicator {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    opacity: 0;
+    animation: fadeInIndicator 1.5s ease forwards 1s;
+}
+.mouse-wheel {
+    width: 24px;
+    height: 40px;
+    border: 2px solid #0f172a;
+    border-radius: 12px;
+    position: relative;
+    display: block;
+}
+.mouse-wheel::before {
+    content: "";
+    width: 4px;
+    height: 8px;
+    background: var(--main-blue);
+    position: absolute;
+    top: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 2px;
+    animation: scrollAnimation 1.8s ease-in-out infinite;
+}
+@keyframes scrollAnimation {
+    0% { transform: translate(-50%, 0); opacity: 1; }
+    50% { transform: translate(-50%, 8px); opacity: 0; }
+    100% { transform: translate(-50%, 0); opacity: 1; }
+}
+@keyframes fadeInIndicator {
+    from { opacity: 0; transform: translate(-50%, 10px); }
+    to { opacity: 0.5; transform: translate(-50%, 0); }
+}
 
 
-/* Section 2: Horizontal Scroll (완성된 기존 피벗 형태 유지) */
-.section-horizontal { height: 100vh; background: #fff; }
-.horizontal-sticky { position: relative; top: 0; height: 100vh; overflow: hidden; display: flex; flex-direction: column; justify-content: center; }
-.sec-title { text-align: center; font-size: 3rem; margin-bottom: 50px; font-weight: 800; letter-spacing: -0.02em; color: #121824;}
+/* ==========================================================================
+   Section 2: Horizontal Scroll (여백 및 카드 세로폭 정밀 보정본)
+   ========================================================================== */
+.section-horizontal { 
+    height: 100vh; 
+    background: #fff; 
+    overflow: visible; 
+    position: relative;
+    z-index: 10;
+}
+.horizontal-sticky { 
+    position: relative; 
+    top: 0; 
+    height: 100vh; 
+    overflow: visible; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    /* [수정] 좁은 화면에서도 위아래로 삐져나가지 않도록 패딩을 균형감 있게 조율 */
+    padding-top: 80px;
+    padding-bottom: 90px; 
+}
+.sec-title { 
+    text-align: center; 
+    font-size: 3rem; 
+    margin-bottom: 25px; /* [수정] 45px -> 25px로 축소하여 세로 공간을 추가 확보 */
+    font-weight: 800; 
+    letter-spacing: -0.02em; 
+    color: #121824;
+}
+
+/* cards-container */
 .cards-container { 
     display: flex; 
-    padding-left: calc(50vw - 225px); 
-    gap: 100px; 
-    perspective: 1000px; 
+    padding-left: calc(50vw - 165px); 
+    gap: -140px; 
+    perspective: 1200px; 
+    align-items: center;
+    margin-top: 10px; /* [수정] 15px -> 10px로 최적화 */
 }
-.card-item { min-width: 450px; height: 550px; }
+
+/* card-item 기본 형태 설정 */
+.card-item { 
+    min-width: 330px; 
+    height: 370px;    /* [수정] 카드 높이를 400px에서 370px로 변경하여 물리적인 세로 여백 대폭 확보 */
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+/* card-inner: 모든 카드가 비활성 상태일 때 기본 흰색 배경 */
 .card-inner { 
-    width: 100%; height: 100%; border-radius: 20px; 
-    position: relative; overflow: hidden; 
-    box-shadow: 0 20px 40px rgba(0,0,0,0.08);
-    background: #fff;
-    transition: transform 0.5s ease;
+    width: 100%; 
+    height: 100%; 
+    border-radius: 24px; 
+    position: relative; 
+    overflow: hidden; 
+    background: #fff; 
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.5s ease; 
 }
+
+/* 비활성 상태 기본 이미지 */
 .card-inactive-content {
     position: absolute;
     inset: 0;
-    background: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
     opacity: 1;
-    transition: opacity 0.4s ease;
+    transition: opacity 0.4s ease, filter 0.4s ease;
     z-index: 1;
 }
 .card-inactive-content img {
@@ -116,30 +245,56 @@ body { font-family: 'Pretendard', sans-serif; background: #fff; color: #333; ove
     height: 100%;
     object-fit: cover;
 }
+
+/* 활성 상태 정보 영역 */
 .card-active-content { 
     position: absolute; 
     inset: 0; 
-    background: rgba(18, 24, 36, 0.85); 
     display: flex; 
     flex-direction: column; 
     justify-content: center; 
     align-items: center;
     color: #fff; 
-    opacity: 0; 
-    transition: opacity 0.4s ease; 
-    padding: 40px; 
+    padding: 30px; 
     text-align: center;
     z-index: 2;
+    opacity: 0; 
+    background: rgba(18, 24, 36, 0.92); 
+    transition: opacity 0.4s ease;
 }
-.card-active-content h3{ font-size: 1.8rem; margin-bottom: 15px; font-weight: 700;}
-.card-active-content p{ font-size: 1rem; line-height: 1.6;}
-.card-item.active .card-inner { transform: scale(1.05); }
-.card-item.active .card-active-content { opacity: 1; }
-.card-item.active .card-inactive-content { opacity: 0.6; } /* 0에서 0.5 ~ 0.8 사이의 값으로 변경 */
+.card-active-content h3 { 
+    font-size: 1.5rem; 
+    margin-bottom: 12px; 
+    font-weight: 800;
+}
+.card-active-content p { 
+    font-size: 0.9rem; 
+    line-height: 1.55;
+    font-weight: 500;
+}
 
+/* 모든 카드가 활성화(.active) 되었을 때 */
+.card-item.active .card-active-content {
+    opacity: 0.7; 
+}
+.card-item.active .card-inactive-content {
+    opacity: 0.25; 
+    filter: grayscale(100%);
+}
 
-/* Section 3: Stack (기존 만족하신 코드 완벽 고수) */
-.section-stack { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; background: var(--bg-light); }
+/* ==========================================================================
+   Section 3: Stack (겹침 방지를 위해 레이어 순서 정리)
+   ========================================================================== */
+.section-stack { 
+    height: 100vh; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center; 
+    position: relative; 
+    background: var(--bg-light); 
+    z-index: 1; /* [수정] 섹션2의 카드가 위로 밀고 오더라도 배경 뒤로 가려지지 않게 레이어 순서를 낮춤 */
+}
 .stack-wrapper { position: relative; width: 600px; height: 200px; z-index: 2; display: flex; align-items: flex-end;}
 .stack-box { 
     position: absolute; width: 100%; background: #fff; border-radius: 15px; padding: 40px;
@@ -516,14 +671,14 @@ body { font-family: 'Pretendard', sans-serif; background: #fff; color: #333; ove
         font-size: 2rem; 
         margin-bottom: 35px; 
     }
-
     /* Section 1: Hero (모바일 텍스트 비율 조정 및 배경 오브젝트 간섭 최소화) */
     .section-hero {
         padding: 0 20px;
     }
     .main-title { 
-        font-size: 2.8rem; 
-        line-height: 1.2; 
+        font-size: 3.1rem; 
+        line-height: 1.15; 
+        margin-bottom: 25px;
     }
     .hero-text-wrap .sub-title {
         font-size: 0.95rem;
@@ -541,33 +696,17 @@ body { font-family: 'Pretendard', sans-serif; background: #fff; color: #333; ove
     .p3 { width: 110px; height: auto; bottom: 8%; right: -2%; opacity: 0.45; }
 
 
-    /* Section 2: Horizontal Scroll (GSAP 가로 스크롤 연산 호환성 보장)
-       - JS의 실시간 가로폭 계산 방식과 일치하도록 카드 너비를 290px로 압축하고, 
-         컨테이너 패딩 값을 카드 절반 값(145px)만큼 빼서 정확한 화면 중앙 정렬을 구현합니다.
-       - JS와의 싱크를 위해 gap은 기존 100px를 유지합니다. */
-    .card-item { 
-        min-width: 290px; 
-        height: 420px; 
-        flex-shrink: 0; /* 강제 축소 방지 */
+/* 초소형 모바일 대응 (480px 이하) */
+@media (max-width: 480px) {
+    /* 기존 속성 유지 */
+    .card-item {
+        min-width: 260px;
     }
-    .cards-container { 
-        padding-left: calc(50vw - 145px); 
-        gap: 100px; 
+    .cards-container {
+        padding-left: calc(50vw - 130px); 
+        gap: -30px; 
     }
-    .card-inner {
-        border-radius: 16px;
-    }
-    .card-active-content { 
-        padding: 24px; 
-    }
-    .card-active-content h3 { 
-        font-size: 1.35rem; 
-        margin-bottom: 10px; 
-    }
-    .card-active-content p { 
-        font-size: 0.85rem; 
-        line-height: 1.5; 
-    }
+}
 
 
     /* Section 3: Stack (고정 폭 600px 해제 및 모바일 최적화)
