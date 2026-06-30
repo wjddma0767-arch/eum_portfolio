@@ -273,15 +273,16 @@ body {
     transition: opacity 0.4s ease;
 }
 .card-active-content h3 { 
-    font-size: 1.5rem; 
+    font-size: 1.8rem; 
     margin-bottom: 12px; 
     font-weight: 800;
 }
 .card-active-content p { 
-    font-size: 0.9rem; 
+    font-size: 1rem; 
     line-height: 1.55;
     font-weight: 500;
 }
+.card-active-content span{font-size: 0.9rem; display: inline-block;width: 100%;font-weight: 300;}
 
 /* 모든 카드가 활성화(.active) 되었을 때 */
 .card-item.active .card-active-content {
