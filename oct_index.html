@@ -1,0 +1,253 @@
+<html lang="ko" translate="no">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/xeicon.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+  <link rel="stylesheet" href="oct_test.css">
+  <link rel="stylesheet" href="font.css">
+  <!-- 제이쿼리 라이브러리 중복 제거 (3.7.1 하나로 정상 제어) -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+</head>
+<body>
+<nav id="bar_top" style="opacity: 1; position: fixed; background-color: rgba(255, 255, 255, 0.95);">
+  <div class="progressBarWrap">
+    <span class="progressBar" style="width: 0%;"></span>
+  </div>
+</nav>
+<div class="back">
+  <div id="thum"></div>
+</div>
+
+<div class="top">
+  <div class="logo" style="display: block; opacity: 1; top: 0px;">
+    <img src="images/oct_mainlogo.png" alt="문어로고">
+    <!-- <p>
+      <span>O</span>CTOPUBAI<span>N</span>
+    </p> -->
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="intro_company">
+    <div class="com_main section01">
+      <div class="oct_img pc_oct">
+        <img src="images/brain_oct.png" alt="">
+      </div>
+      <div class="oct_img mo_oct">
+        <img src="images/brain_oct_mo.png" alt="">
+      </div>
+      <div class="typing-container">
+        <!-- JS 타이핑 오작동 방지를 위해 내부 텍스트를 지워 초기화 상태로 둠 -->
+        <span id="text"></span><span id="cursor"></span>
+      </div>
+      <div id="scroll_btn" style="display: block;">
+        <div class="container">
+          <a href="#" class="scroll"><span></span></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="scroll-text section02" id="sect02">
+      <div class="track">
+        <p>OCTOPUBRAIN</p>
+        <p>OCTOPUBRAIN</p>
+        <p>OCTOPUBRAIN</p>
+        <p>OCTOPUBRAIN</p>
+        <p>OCTOPUBRAIN</p>
+        <p>OCTOPUBRAIN</p>
+        <p>OCTOPUBRAIN</p>
+        <p>OCTOPUBRAIN</p>
+        <p>OCTOPUBRAIN</p>
+        <p>OCTOPUBRAIN</p>
+      </div>
+    </div>
+
+    <!-- "THE START OF A NEW BUSINESS IS LIKE" 섹션 -->
+    <div class="pv-box section03" id="sect03">
+      <div class="info_txt fade-wrap">
+        <h2>THE START OF A NEW BUSINESS IS LIKE</h2>
+        <span class="pc_txt">새로운 사업의 시작은 어두운 바다를 표류하는 것과 같습니다.</span>
+        <span class="mo_txt">새로운 사업의 시작은 어두운 바다를<br>표류하는 것과 같습니다.</span>
+        <p class="pc_p">목적에 도달하기 위해서는 어둠 속에서 끊임없이 자신과 목표 사이의 거리를 가늠해야 합니다. <br>
+          생각지 못한 격량과 해풍이 도사리고 있을지도 모릅니다.</p>
+        <p class="mo_p">목적에 도달하기 위해서는<br>어둠 속에서 끊임없이 자신과 목표 사이의 거리를 가늠해야 합니다. <br>
+            생각지 못한 격량과 해풍이 도사리고 있을지도 모릅니다.</p>
+      </div>
+    </div>
+
+    <div class="commitment section04">
+      <div class="content">
+        <span class="con_tit">commitment</span>
+        <p class="sub_tit">당신의 성장이 곧 옥토퍼브레인의 성장이라 믿습니다.</p>
+        <ul>
+          <li>
+            <div class="img">
+              <img src="/images/01.png" alt="">
+            </div>
+            <div class="txt">
+              <span>기준을 낮추지 않습니다.</span>
+              <font>쉬운 달성을 위해 기준을 낮추기보다<br>
+                    어떻게 한 단계 더 나아갈까 고민합니다.
+              </font>
+            </div>
+          </li>
+          <li>
+            <div class="img">
+              <img src="/images/02.png" alt="">
+            </div>
+            <div class="txt">
+              <span>상대방 입장에서 생각합니다.</span>
+              <font>고객의 입장을 고려하는<br>
+                    유능하고 다정한 동료가 되겠습니다.
+              </font>
+            </div>
+          </li>
+          <li>
+            <div class="img">
+              <img src="/images/03.png" alt="">
+            </div>
+            <div class="txt">
+              <span>최선의 성과를 약속합니다.</span>
+              <font>적극적이고 긍정적인 태도로 임하여<br>
+                    매번 최선의 결과를 만듭니다.
+              </font>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="keyft_wrap section05">
+      <div class="content">
+        <div class="information">
+          <font>축의금 카드 결제 플랫폼</font>
+          <span>KEYFT</span>
+          <p>이제는 축의금을 신용카드 결제와 카드 할부가 가능하다!<br>
+          옥토퍼브레인에서 제공되는 최초 카드 결제 서비스를 만나보자! </p>
+        </div>
+        <div class="img_box">
+          <div class="keyft_img">
+            <img src="/images/keyft_phone.png" alt="">
+          </div>
+          <a href="/pagelist?dir=info&amp;view=info_01" target="_blank">키프트 바로가기</a>
+        </div>
+      </div>
+      <div class="ann">
+        <ul>
+          <li>
+            <div class="icon">
+              <img src="images/step1.png" alt="">
+            </div>
+            <span>축의금도 카드 결제로!</span>
+            <p>모바일 청첩장에 계좌 정보 외에도<br>
+            카드 결제 기능을 추가하여<br>
+            더욱 편리한 결제 방식을 제공합니다.
+          </p>
+          </li>
+          <li>
+            <div class="icon">
+              <img src="images/step2.png" alt="">
+            </div>
+            <span>무이자 할부도 가능!</span>
+            <p>카드사 기준으로<br>
+            무이자 할부도 가능하여<br>
+            큰 비용 부담을 줄여줍니다.
+          </p>
+          </li>
+          <li>
+            <div class="icon">
+              <img src="images/step3.png" alt="">
+            </div>
+            <span>번거로움을 해결!</span>
+            <p>웨딩홀에서 ATM기를 찾아<br>
+            헤매지 않아도 되는<br>
+            번거로움을 해결할 수 있습니다.
+          </p>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="inquiry section06">
+      <font>옥토퍼브레인과 함께 하세요!</font>
+      <span>Let's get in touch!</span>
+      <div class="link">
+        <a href="" class="to_inquire">문의하기</a>
+        <a href="">사업 소개서 보기</a>
+      </div>
+    </div>
+
+    <!-- 우측 하단 동적 Back to Top 버튼을 포함하는 고도화된 Footer -->
+    <div class="footer section07">
+      <ul class="left">
+        <li>OCTOPUBRAIN</li>
+        <li>2025 © OCTOPUBRAIN All Rights Reserved.</li>
+      </ul>
+      <ul class="right">
+        <li><span>대표자</span> 김동학</li>
+        <li><span>사업자 등록번호</span> 673-81-03008</li>
+        <li><span>이메일</span> test@naver.com</li>
+        <li><span>주소</span> 서울특별시 서초구 서운로 142-4, 9층</li>
+      </ul>
+      
+      <!-- 위로 이동하는 동적 버튼 -->
+      <button class="back-to-top" title="위로 가기">
+        <i class="xi-arrow-up"></i>
+      </button>
+    </div>
+
+    <div id="inquiryModal" class="modal">
+      <div class="modal-content">
+        <span class="close"><i class="xi-close-thin"></i></span>
+        <h2>문의하기</h2>
+
+        <div class="flex">
+          <div class="input">
+            <div class="tit">기업명</div>
+            <div class="txt">
+              <input type="text" name="" value="">
+            </div>
+          </div>
+          <div class="input">
+            <div class="tit">담당자 성함</div>
+            <div class="txt">
+              <input type="text" name="" value="">
+            </div>
+          </div>
+        </div>
+
+        <div class="flex">
+          <div class="input">
+            <div class="tit">연락처</div>
+            <div class="txt">
+              <input type="text" name="" value="">
+            </div>
+          </div>
+          <div class="input">
+            <div class="tit">이메일 </div>
+            <div class="txt">
+              <input type="text" name="" value="">
+            </div>
+          </div>
+        </div>
+
+        <div class="flex">
+          <div class="input textarea">
+            <div class="tit">문의내용</div>
+            <div class="txt">
+              <textarea placeholder="문의내용을 입력하세요." rows="5"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <button class="submit-btn">제출하기</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<script src="oct_test.js"></script>
+</body>
+</html>
