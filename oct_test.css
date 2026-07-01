@@ -500,7 +500,7 @@ li{list-style:none}
 @media screen and (max-width:767px){
   .top .logo p{font-size: 13px;}
   .top .logo span{font-size: 17px;}
-  .wrap .intro_company .com_main{background-image: url(../img/brain_main3_mo.png);height: 830px;}
+  .wrap .intro_company .com_main{height: 830px;}
   .wrap .intro_company .com_main .oct_img.mo_oct{display: flex;width: 100%;height: auto;left: 50%;transform: translateX(-50%);top: 10%;}
   .wrap .intro_company .com_main .oct_img.pc_oct{display: none;}
   .typing-container{height: auto; font-size: 28px;}

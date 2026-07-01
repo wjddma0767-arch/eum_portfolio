@@ -857,9 +857,20 @@ body {
     .email-link { 
         font-size: 1.5rem; 
     }
+    .section-stack{
+        height: 60vh;
+    }
     .stack-wrapper {
-        max-width: 290px;
-        height: 250px; /* 좁은 폭으로 인해 길어지는 텍스트 수용 */
+        height: 200px;
+        align-items: flex-start;
+    }
+    .stack-box{
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .stack-box .icon{
+        width: 55px;
     }
     .card-item {
         min-width: 260px;
